@@ -278,7 +278,7 @@ export default function App() {
         );
       }
 
-      const res = fetch(`${import.meta.env.VITE_API_URL}/bfhl`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/bfhl`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data: parsed }),
