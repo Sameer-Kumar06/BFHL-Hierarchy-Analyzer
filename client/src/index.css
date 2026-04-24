@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* ── Custom Design Tokens ──────────────────────────────────────────── */
+@theme {
+  --color-prof-bg: #f8fafc;
+  --color-prof-surface: #ffffff;
+  --color-prof-border: #e2e8f0;
+  --color-prof-text-main: #0f172a;
+  --color-prof-text-muted: #64748b;
+  --color-prof-primary: #334155;
+  --color-prof-primary-hover: #1e293b;
+  --color-prof-success: #059669;
+  --color-prof-success-bg: #ecfdf5;
+  --color-prof-warning: #d97706;
+  --color-prof-warning-bg: #fffbeb;
+  --color-prof-danger: #e11d48;
+  --color-prof-danger-bg: #fff1f2;
+}
+
+/* ── Global Styles ─────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Inter";
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: var(--color-prof-bg);
+  color: var(--color-prof-text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Clean Card ────────────────────────────────────────────────────── */
+.prof-card {
+  background: var(--color-prof-surface);
+  border: 1px solid var(--color-prof-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.prof-card-hover:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+/* ── Professional Button ───────────────────────────────────────────── */
+.prof-btn {
+  background: var(--color-prof-primary);
+  color: #fff;
+  border: 1px solid var(--color-prof-primary);
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.prof-btn:hover {
+  background: var(--color-prof-primary-hover);
+  border-color: var(--color-prof-primary-hover);
+}
+.prof-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* ── Tree connector lines ──────────────────────────────────────────── */
+.tree-node {
+  position: relative;
+  padding-left: 24px;
+}
+.tree-node::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-prof-border);
+}
+.tree-node::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 14px;
+  width: 12px;
+  height: 1px;
+  background: var(--color-prof-border);
+}
+.tree-node:last-child::before {
+  bottom: calc(100% - 14px);
+}
+
+/* ── Fade-in animation ─────────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-prof-bg); }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
