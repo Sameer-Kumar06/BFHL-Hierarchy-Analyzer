@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// ── Identity (update with your real credentials) ──────────────────────
+
 const USER_ID = "SameerKumar_30092006"; // fullname_ddmmyyyy
 const EMAIL_ID = "sk9641@srmist.edu.in";
 const COLLEGE_ROLL_NUMBER = "RA2311003020700";

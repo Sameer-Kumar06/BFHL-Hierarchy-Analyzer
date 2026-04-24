@@ -6,9 +6,15 @@ function TreeView({ data, level = 0 }) {
   const keys = Object.keys(data);
   if (keys.length === 0) return null;
   return (
-    <ul className={`space-y-1 ${level > 0 ? "ml-5 border-l border-slate-200 pl-4" : ""}`}>
+    <ul
+      className={`space-y-1 ${level > 0 ? "ml-5 border-l border-slate-200 pl-4" : ""}`}
+    >
       {keys.map((key) => (
-        <li key={key} className="animate-fade-in" style={{ animationDelay: `${level * 60}ms` }}>
+        <li
+          key={key}
+          className="animate-fade-in"
+          style={{ animationDelay: `${level * 60}ms` }}
+        >
           <span className="inline-flex items-center gap-2">
             <span className="w-7 h-7 rounded bg-slate-100 border border-slate-200 flex items-center justify-center text-sm font-semibold text-slate-700">
               {key}
@@ -33,8 +39,12 @@ function StatCard({ label, value, color = "slate" }) {
     rose: "bg-rose-50 border-rose-100 text-rose-800",
   };
   return (
-    <div className={`prof-card prof-card-hover p-5 flex flex-col gap-1 ${colorMap[color]}`}>
-      <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">{label}</span>
+    <div
+      className={`prof-card prof-card-hover p-5 flex flex-col gap-1 ${colorMap[color]}`}
+    >
+      <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">
+        {label}
+      </span>
       <span className="text-2xl font-bold">{value}</span>
     </div>
   );
@@ -62,14 +72,19 @@ function HierarchyCard({ hierarchy, index }) {
             {hierarchy.root}
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900">Root: {hierarchy.root}</h3>
+            <h3 className="font-semibold text-slate-900">
+              Root: {hierarchy.root}
+            </h3>
             {isCycle ? (
               <span className="text-xs px-2 py-0.5 rounded bg-rose-100 text-rose-700 border border-rose-200 mt-1 inline-block font-medium">
                 Cycle Detected
               </span>
             ) : (
               <span className="text-xs text-slate-500">
-                Depth: <span className="text-slate-800 font-semibold">{hierarchy.depth}</span>
+                Depth:{" "}
+                <span className="text-slate-800 font-semibold">
+                  {hierarchy.depth}
+                </span>
               </span>
             )}
           </div>
@@ -78,8 +93,18 @@ function HierarchyCard({ hierarchy, index }) {
 
       {isCycle ? (
         <div className="flex items-center gap-2 p-4 rounded bg-rose-50 border border-rose-100 text-rose-700 text-sm">
-          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="w-5 h-5 flex-shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           This group contains a cycle — tree structure cannot be built.
         </div>
@@ -94,7 +119,8 @@ function HierarchyCard({ hierarchy, index }) {
 
 /* ── Badge list for invalid / duplicate entries ────────────────────── */
 function BadgeList({ items, color }) {
-  if (!items || items.length === 0) return <span className="text-sm text-slate-500 italic">None</span>;
+  if (!items || items.length === 0)
+    return <span className="text-sm text-slate-500 italic">None</span>;
   const colorMap = {
     rose: "bg-rose-50 text-rose-700 border-rose-200",
     amber: "bg-amber-50 text-amber-700 border-amber-200",
@@ -103,7 +129,10 @@ function BadgeList({ items, color }) {
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((item, i) => (
-        <span key={i} className={`px-2 py-1 rounded text-xs border font-mono font-medium ${colorMap[color]}`}>
+        <span
+          key={i}
+          className={`px-2 py-1 rounded text-xs border font-mono font-medium ${colorMap[color]}`}
+        >
           {item || '""'}
         </span>
       ))}
@@ -140,7 +169,9 @@ function GraphVisualization({ inputRaw }) {
     try {
       parsed = JSON.parse(inputRaw);
     } catch {
-      parsed = inputRaw.split(",").map((s) => s.trim().replace(/^["']|["']$/g, ""));
+      parsed = inputRaw
+        .split(",")
+        .map((s) => s.trim().replace(/^["']|["']$/g, ""));
     }
 
     if (!Array.isArray(parsed)) return { nodes: [], links: [] };
@@ -170,7 +201,11 @@ function GraphVisualization({ inputRaw }) {
   }
 
   return (
-    <div ref={containerRef} className="prof-card overflow-hidden w-full bg-slate-50 border-slate-200 relative" style={{ height: "400px" }}>
+    <div
+      ref={containerRef}
+      className="prof-card overflow-hidden w-full bg-slate-50 border-slate-200 relative"
+      style={{ height: "400px" }}
+    >
       <ForceGraph2D
         width={dimensions.width}
         height={dimensions.height}
@@ -187,7 +222,7 @@ function GraphVisualization({ inputRaw }) {
           ctx.font = `${fontSize}px Inter, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          
+
           // Draw circle
           ctx.beginPath();
           ctx.arc(node.x, node.y, 6, 0, 2 * Math.PI, false);
@@ -212,7 +247,7 @@ function GraphVisualization({ inputRaw }) {
 /* ── Main App ──────────────────────────────────────────────────────── */
 export default function App() {
   const [input, setInput] = useState(
-    '["A->B", "A->C", "B->D", "C->E", "E->F", "X->Y", "Y->Z", "Z->X", "P->Q", "Q->R", "G->H", "G->H", "G->I", "hello", "1->2", "A->"]'
+    '["A->B", "A->C", "B->D", "C->E", "E->F", "X->Y", "Y->Z", "Z->X", "P->Q", "Q->R", "G->H", "G->H", "G->I", "hello", "1->2", "A->"]',
   );
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -232,14 +267,18 @@ export default function App() {
       try {
         parsed = JSON.parse(input);
       } catch {
-        parsed = input.split(",").map((s) => s.trim().replace(/^["']|["']$/g, ""));
+        parsed = input
+          .split(",")
+          .map((s) => s.trim().replace(/^["']|["']$/g, ""));
       }
 
       if (!Array.isArray(parsed)) {
-        throw new Error("Input must be a JSON array or comma-separated list of edges.");
+        throw new Error(
+          "Input must be a JSON array or comma-separated list of edges.",
+        );
       }
 
-      const res = await fetch("/bfhl", {
+      const res = fetch(`${import.meta.env.VITE_API_URL}/bfhl`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data: parsed }),
@@ -267,13 +306,24 @@ export default function App() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-              <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              <svg
+                className="w-6 h-6 text-slate-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                />
               </svg>
               BFHL Hierarchy Analyzer
             </h1>
             <p className="text-sm text-slate-500 mt-1">
-              Process network relationships, build trees, and handle nested structures.
+              Process network relationships, build trees, and handle nested
+              structures.
             </p>
           </div>
           <div className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
@@ -287,11 +337,15 @@ export default function App() {
         {/* Left Column: Input Panel */}
         <div className="lg:col-span-4 flex flex-col gap-6">
           <section className="prof-card p-6">
-            <label className="block text-sm font-semibold text-slate-800 mb-2" htmlFor="nodeInput">
+            <label
+              className="block text-sm font-semibold text-slate-800 mb-2"
+              htmlFor="nodeInput"
+            >
               Node Relationships Data
             </label>
             <p className="text-xs text-slate-500 mb-4">
-              Enter edges as a JSON array or comma-separated list (e.g., A-&gt;B).
+              Enter edges as a JSON array or comma-separated list (e.g.,
+              A-&gt;B).
             </p>
             <textarea
               id="nodeInput"
@@ -311,16 +365,29 @@ export default function App() {
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Processing…
                 </>
               ) : (
-                <>
-                  Analyze Data
-                </>
+                <>Analyze Data</>
               )}
             </button>
           </section>
@@ -329,23 +396,47 @@ export default function App() {
           {result && (
             <section className="prof-card flex flex-col animate-fade-in divide-y divide-slate-100">
               <div className="p-4 bg-slate-50 rounded-t flex items-center gap-2">
-                <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <svg
+                  className="w-4 h-4 text-slate-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
                 </svg>
-                <h2 className="text-xs font-semibold text-slate-600 uppercase tracking-wide">User Identity</h2>
+                <h2 className="text-xs font-semibold text-slate-600 uppercase tracking-wide">
+                  User Identity
+                </h2>
               </div>
               <div className="p-4 flex flex-col gap-3">
                 <div>
-                  <span className="block text-[10px] uppercase text-slate-400 font-medium">User ID</span>
-                  <span className="text-sm font-mono font-medium text-slate-800">{result.user_id}</span>
+                  <span className="block text-[10px] uppercase text-slate-400 font-medium">
+                    User ID
+                  </span>
+                  <span className="text-sm font-mono font-medium text-slate-800">
+                    {result.user_id}
+                  </span>
                 </div>
                 <div>
-                  <span className="block text-[10px] uppercase text-slate-400 font-medium">Email</span>
-                  <span className="text-sm font-medium text-slate-700">{result.email_id}</span>
+                  <span className="block text-[10px] uppercase text-slate-400 font-medium">
+                    Email
+                  </span>
+                  <span className="text-sm font-medium text-slate-700">
+                    {result.email_id}
+                  </span>
                 </div>
                 <div>
-                  <span className="block text-[10px] uppercase text-slate-400 font-medium">Roll Number</span>
-                  <span className="text-sm font-medium text-slate-700">{result.college_roll_number}</span>
+                  <span className="block text-[10px] uppercase text-slate-400 font-medium">
+                    Roll Number
+                  </span>
+                  <span className="text-sm font-medium text-slate-700">
+                    {result.college_roll_number}
+                  </span>
                 </div>
               </div>
             </section>
@@ -376,8 +467,18 @@ export default function App() {
         <div className="lg:col-span-8 flex flex-col gap-6">
           {error && (
             <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 flex items-start gap-3 animate-fade-in shadow-sm">
-              <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-5 h-5 mt-0.5 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <div>
                 <p className="font-semibold text-sm">Request Failed</p>
@@ -388,7 +489,8 @@ export default function App() {
 
           {!result && !error && (
             <div className="h-full min-h-[400px] flex items-center justify-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50 text-slate-400 text-sm">
-              Enter data and run analysis to view the network graph and structures.
+              Enter data and run analysis to view the network graph and
+              structures.
             </div>
           )}
 
@@ -396,21 +498,41 @@ export default function App() {
             <div className="space-y-6 animate-fade-in">
               {/* Summary Metrics */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard label="Total Trees" value={result.summary.total_trees} color="emerald" />
-                <StatCard label="Total Cycles" value={result.summary.total_cycles} color="rose" />
-                <StatCard label="Largest Root" value={result.summary.largest_tree_root || "—"} color="slate" />
-                <StatCard label="Hierarchies" value={result.hierarchies.length} color="slate" />
+                <StatCard
+                  label="Total Trees"
+                  value={result.summary.total_trees}
+                  color="emerald"
+                />
+                <StatCard
+                  label="Total Cycles"
+                  value={result.summary.total_cycles}
+                  color="rose"
+                />
+                <StatCard
+                  label="Largest Root"
+                  value={result.summary.largest_tree_root || "—"}
+                  color="slate"
+                />
+                <StatCard
+                  label="Hierarchies"
+                  value={result.hierarchies.length}
+                  color="slate"
+                />
               </div>
 
               {/* Graphical Visualization Component */}
               <section>
-                <h2 className="text-sm font-semibold text-slate-700 mb-3 ml-1">Network Visualization</h2>
+                <h2 className="text-sm font-semibold text-slate-700 mb-3 ml-1">
+                  Network Visualization
+                </h2>
                 <GraphVisualization inputRaw={analyzedInput} />
               </section>
 
               {/* Text / Tree Structure View */}
               <section>
-                <h2 className="text-sm font-semibold text-slate-700 mb-3 ml-1 mt-8">Hierarchical Structures</h2>
+                <h2 className="text-sm font-semibold text-slate-700 mb-3 ml-1 mt-8">
+                  Hierarchical Structures
+                </h2>
                 <div className="grid gap-4">
                   {result.hierarchies.map((h, i) => (
                     <HierarchyCard key={i} hierarchy={h} index={i} />
